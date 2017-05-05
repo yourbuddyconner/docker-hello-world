@@ -4,17 +4,22 @@ pipeline:
     commands: 
       - pip install -r application/requirements.txt
       - python application/tests.py
+  # publish:
+  #   image: docker:17.05.0
+  #   commands:
+  #     - docker login --username "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD"
+  #     - docker build -t yourbuddyconner/docker-hello-world .
+  #     - docker push yourbuddyconner/docker-hello-world
+  #   environment:
+  #     - DOCKER_USERNAME=${DOCKER_USERNAME}
+  #     - DOCKER_PASSWORD=${DOCKER_PASSWORD}
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
   publish:
-    image: docker:17.05.0
-    commands:
-      - docker login --username "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD"
-      - docker build -t yourbuddyconner/docker-hello-world .
-      - docker push yourbuddyconner/docker-hello-world
-    environment:
-      - DOCKER_USERNAME=${DOCKER_USERNAME}
-      - DOCKER_PASSWORD=${DOCKER_PASSWORD}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    image: plugins/docker
+    repo: yourbuddyconner/docker-hello-world
+    username: ${DOCKER_USERNAME}
+    password: ${DOCKER_PASSWORD}
   deploy: 
     image: peloton/drone-rancher
     url: http://rancher.swannairlines.com
@@ -24,11 +29,6 @@ pipeline:
     docker_image: yourbuddyconner/docker-hello-world:latest
     confirm: true
     timeout: 120
-  # publish:
-  #   image: plugins/docker
-  #   repo: yourbuddyconner/docker-hello-world
-  #   username: ${DOCKER_USERNAME}
-  #   password: ${DOCKER_PASSWORD}
   slack:
     image: plugins/slack
     webhook: https://hooks.slack.com/services/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
