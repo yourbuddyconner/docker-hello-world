@@ -7,7 +7,7 @@ pipeline:
   publish:
     image: docker
     commands:
-      - docker login --user "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD"
+      - docker login --username "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD"
       - docker build -t yourbuddyconner/docker-hello-world .
       - docker push yourbuddyconner/docker-hello-world
     environment:
