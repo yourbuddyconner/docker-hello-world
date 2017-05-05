@@ -5,9 +5,9 @@ pipeline:
       - pip install -r application/requirements.txt
       - python application/tests.py
   publish:
-    image: docker:1.13
+    image: docker:1.13.1
     commands:
-      - docker login --username "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD"
+      - docker login --username "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD" -e me@connerswann.me
       - docker build -t yourbuddyconner/docker-hello-world .
       - docker push yourbuddyconner/docker-hello-world
     environment:
